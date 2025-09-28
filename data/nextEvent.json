@@ -1,9 +1,9 @@
 {
-    date: '2025-10-17T19:00:00',
+    date: "2025-10-17T19:00:00",
     venue: {
-        name: 'Yant',
-        link: 'https://www.instagram.com/yant_art_space/',
-        locationLink: 'https://maps.app.goo.gl/TmgV2QdaQw2vdyWu5'
+        name: "Yant",
+        link: "https://www.instagram.com/yant_art_space/",
+        locationLink: "https://maps.app.goo.gl/TmgV2QdaQw2vdyWu5"
     },
     speaker1: {
         name: "Be our first speaker!",
