@@ -7,15 +7,15 @@
   },
   "speaker1": {
     "name": "Be our first speaker!",
-    "link": "#"
+    "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
   },
   "speaker2": {
     "name": "Be our second speaker!",
-    "link": "#"
+    "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
   },
   "speaker3": {
     "name": "Be our third speaker!",
-    "link": "#"
+    "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
   },
   "afterHours": {
     "name": "TBD",
