@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FOREST HILLS TECH MEETUP</title>
+        <style>
+            :root {
+                --background-color: #000000;
+                --dark-highlight: #98b6f2;
+                --light-highlight: #FF7A30;
+                --color: #E9E3DF;
+                --break-height: 30px;
+            }
+
+            html {
+                height: 100%;
+                margin: 5px 0 0 0;
+            }
+
+            a {
+                color: var(--light-highlight);
+                text-decoration: underline dotted;
+                
+            }
+
+            .wrapper {
+                width: 738px;
+                margin: 0 auto;
+            }
+
+            body {
+                margin: 0;
+                background-color: var(--background-color);
+                color: var(--color);
+                font-family: monospace;
+            }
+
+            header {
+                display: flex;
+                align-items: center;
+                height: 122x;
+            }
+
+            .header-text {
+                margin: 0.25em;
+                line-height: 1.04em;
+                flex: 0 0 369px !important;
+            }
+            .header-text-background {
+                color: var(--dark-highlight);
+            }
+
+            .header-col {
+                flex: 1;
+            }
+
+            .header-countdown {
+                font-size: 1em;
+                vertical-align: middle;
+                padding: 0 0 0 10px;
+            }
+
+            main {
+                width: 100%;
+            }
+
+            main event ol {
+                list-style-type: none;
+                list-style-position: inside;
+                margin: 0 0 0 200px;
+                padding: 20px 0 0 0;
+            }
+
+
+            event time {
+                text-align: right;
+                vertical-align: middle;
+                position: absolute;
+                transform: translateX(-143px);
+                width: 150px; 
+                font-size: 1.25em;
+            }
+
+            event time:after {
+                content: " \25B7";
+                color: var(--light-highlight);
+            }
+
+            event text {
+                margin: 0 0 0 20px;
+                padding: 7px;
+                font-size: 1.25em;
+                border: var(--dark-highlight) solid 2px;
+            }
+
+            .dotted-line {
+                border-left: var(--dark-highlight) dotted 5px ;
+                left: -12px;
+                height: var(--break-height);
+            }
+
+            .spacer {
+                height: var(--break-height);
+            }
+
+            .locationLink {
+                text-decoration: none !important;
+            }
+
+        </style>
+        <script>
+            var eventData = {}
+
+            async function getEventData() {
+
+                const queryString = new URLSearchParams(window.location.search);
+
+                var nextEventDate = queryString.get('date');
+                if(nextEventDate === null) 
+                {
+                    await fetch('https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/nextEvent.json')
+                        .then(response => {
+                            if(!response.ok) {
+                                throw new Error("Next event date response was not ok");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            nextEventDate = data.date;
+                        })
+                        .catch(error => {
+                            console.error("There was a problem fetching the next event date: ", error);
+                        });
+                }
+
+                await fetch(`https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/${nextEventDate}.json`)
+                    .then(response => {
+                        if(!response.ok) {
+                            throw new Error("Next event data response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        eventData = data;
+                    })
+                    .catch(error => {
+                        console.error("There was a problem fetching the next event data: ", error);
+                    })
+            }
+
+            function setEventDate() {
+                var dateOptions = {
+                    month: 'short',
+                    day: '2-digit',
+                    weekday: 'short',
+                    timeZone: 'America/New_York'
+                };
+
+                var target = new Date(
+                        new Date(eventData.date).toLocaleString('en-US', {timeZone: 'America/New_York'})
+                    );
+
+                document.querySelector("#eventDate").innerHTML = target.toLocaleString('en-US', dateOptions);
+            }
+
+            function setVenue() {
+                var link = document.querySelector("#venueLink");
+                link.innerHTML = eventData.venue.name;
+                link.setAttribute("href", eventData.venue.link);
+
+                var link = document.querySelector("#venueLocationLink");
+                link.setAttribute("href", eventData.venue.locationLink);
+            }
+
+            function setSpeaker(number) {
+                var speaker = `speaker${number}`;
+                var link = document.querySelector(`#${speaker}`);
+                link.innerHTML = eventData[speaker].name;
+                link.setAttribute("href", eventData[speaker].link);
+            }
+
+            function countdown() {
+                
+                var target = new Date(
+                        new Date(eventData.date).toLocaleString('en-US', {timeZone: 'America/New_York'})
+                    );
+
+                var now = new Date(
+                        new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})
+                    );
+                
+                var totalMs = Math.max(target - now, 0);
+            
+                var days = Math.floor(totalMs / (1000 * 60 * 60 * 24));
+                var daysMs = days * 1000 * 60 * 60 * 24;
+                totalMs -= daysMs;
+
+                var hours = Math.floor(totalMs / (1000 * 60 * 60));
+                var hoursMs = hours * 1000 * 60 * 60;
+                totalMs -= hoursMs;
+
+                var minutes = Math.floor(totalMs / (1000 * 60));
+                var minutesMs = minutes * 1000 * 60;
+                totalMs -= minutesMs;
+
+                var seconds = Math.floor(totalMs / (1000));
+                var secondsMs = minutes * 1000;
+
+                var dateOptions = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit',
+                    weekday: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZoneName: 'short',
+                    hour12: true,
+                    timeZone: 'America/New_York'
+                };
+
+                document.querySelector("#countdown").innerHTML = `Next meeting: ${days}d:${hours.toString().padStart(2, "0")}h:${minutes.toString().padStart(2, "0")}m:${seconds.toString().padStart(2, "0")}s`;
+                document.querySelector("#countdown-date").innerHTML = target.toLocaleString('en-US', dateOptions);
+                requestAnimationFrame(countdown);
+            }
+            window.addEventListener('load', async function(){
+                await getEventData();
+                setEventDate();
+                setVenue();
+                setSpeaker(1);
+                setSpeaker(2);
+                requestAnimationFrame(countdown);
+            })
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <div class="header-col header-text">
+                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+                    <span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀█<span class="header-text-background">░</span>█▀▄<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█<span class="header-text-background">░░░</span>█▀▀<span class="header-text-background">░</span><br>
+                    <span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▄<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀▀█<span class="header-text-background">░░</span>█<span class="header-text-background">░░░░</span>█▀█<span class="header-text-background">░░</span>█<span class="header-text-background">░░</span>█<span class="header-text-background">░░░</span>█<span class="header-text-background">░░░</span>▀▀█<span class="header-text-background">░</span><br>
+                    <span class="header-text-background">░</span>▀<span class="header-text-background">░░░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░░</span>▀<span class="header-text-background">░░░░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span><br>
+                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+                    <span class="header-text-background">░░░</span>▀█▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█▄█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀█<span class="header-text-background">░░░</span><br>
+                    <span class="header-text-background">░░░░</span>█<span class="header-text-background">░░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█▀█<span class="header-text-background">░░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░░</span>█<span class="header-text-background">░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░░░</span><br>
+                    <span class="header-text-background">░░░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░░░</span>
+                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+                </div>
+                <div class="header-col header-countdown">
+                    <span id="countdown"></span><br>
+                    <span id="countdown-date"></span><br>
+                </div>
+            </header>
+            <main>
+                <event>
+                    <ol>
+                        <li class="dotted-line"></li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>now</time>
+                            <text>Show your interest!</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="dotted-line"></li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time id="eventDate"></time>
+                            <text>Meetup day!</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>9:00a - 6:00p</time>
+                            <text>Come co-work at our venue: <a id="venueLink" href="#" target="_blank" rel="noopener noreferrer"></a> (<a id="venueLocationLink" class="locationLink" href="#" target="_blank" rel="noopener noreferrer">&#128205;</a>)</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>7:00p</time>
+                            <text>Take a seat and get comfy</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>7:15p</time>
+                            <text>Welcome + Introductions</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>7:30p</time>
+                            <text><a id="speaker1" target="_blank" rel="noopener noreferrer"></a></text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>7:50p</time>
+                            <text><a id="speaker2" target="_blank" rel="noopener noreferrer"></a></text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>8:15p</time>
+                            <text>Socalize + Demos</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="milestone">
+                            <time>8:55p</time>
+                            <text>Shut it down!</text>
+                        </li>
+                        <li class="spacer"></li>
+                        <li class="dotted-line"></li>
+                        <li class="dotted-line"></li>
+                    </ul>
+                </event>
+            </main>
+        </div>
+    </body>
+</html>
+
