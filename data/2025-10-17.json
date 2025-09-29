@@ -6,15 +6,11 @@
     "locationLink": "https://maps.app.goo.gl/TmgV2QdaQw2vdyWu5"
   },
   "speaker1": {
-    "name": "Be our first speaker!",
+    "name": "Be the first speaker!",
     "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
   },
   "speaker2": {
-    "name": "Be our second speaker!",
-    "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
-  },
-  "speaker3": {
-    "name": "Be our third speaker!",
+    "name": "Be the second speaker!",
     "link": "https://github.com/foresthillstechmeetup/fohi.io/issues/new?template=presentation.md"
   },
   "afterHours": {
