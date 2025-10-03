@@ -114,8 +114,8 @@
 
                 const queryString = new URLSearchParams(window.location.search);
 
-                var nextEventDate = queryString.get('date');
-                if(nextEventDate === null) 
+                var nextEventDate = null; //queryString.get('date');
+                if(false && nextEventDate === null) 
                 {
                     await fetch('https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/nextEvent.json')
                         .then(response => {
@@ -132,19 +132,25 @@
                         });
                 }
 
-                await fetch(`https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/${nextEventDate}.json`)
-                    .then(response => {
-                        if(!response.ok) {
-                            throw new Error("Next event data response was not ok");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        eventData = data;
-                    })
-                    .catch(error => {
-                        console.error("There was a problem fetching the next event data: ", error);
-                    })
+                if(nextEventDate !== null) {
+                    await fetch(`https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/${nextEventDate}.json`)
+                        .then(response => {
+                            if(!response.ok) {
+                                throw new Error("Next event data response was not ok");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            eventData = data;
+                        })
+                        .catch(error => {
+                            console.error("There was a problem fetching the next event data: ", error);
+                        })
+                }
+                else {
+                    eventData = null;
+                }
+                
             }
 
             function setEventDate() {
@@ -160,6 +166,11 @@
                     );
 
                 document.querySelector("#eventDate").innerHTML = target.toLocaleString('en-US', dateOptions);
+            }
+
+            function setComingSoon() {
+                document.querySelector("#countdown").innerHTML = "Stay tuned, next event coming soon!";
+                document.querySelector("#eventListing").style.display = "none";
             }
 
             function setVenue() {
@@ -224,11 +235,16 @@
             }
             window.addEventListener('load', async function(){
                 await getEventData();
-                setEventDate();
-                setVenue();
-                setSpeaker(1);
-                setSpeaker(2);
-                requestAnimationFrame(countdown);
+                if(eventData !== null) {
+                    setEventDate();
+                    setVenue();
+                    setSpeaker(1);
+                    setSpeaker(2);
+                    requestAnimationFrame(countdown);
+                }
+                else {
+                    setComingSoon();
+                }
             })
         </script>
     </head>
@@ -253,7 +269,7 @@
             </header>
             <main>
                 <event>
-                    <ol>
+                    <ol id="eventListing">
                         <li class="dotted-line"></li>
                         <li class="spacer"></li>
                         <li class="milestone">
