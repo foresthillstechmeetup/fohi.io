@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>FOREST HILLS TECH MEETUP</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <style>
             :root {
                 --background-color: #000000;
@@ -13,7 +15,7 @@
 
             html {
                 height: 100%;
-                margin: 5px 0 0 0;
+                margin: 15px 0 0 0;
             }
 
             a {
@@ -22,35 +24,27 @@
                 
             }
 
-            @media (min-width: 738px) {
-                .wrapper {
-                    width: 738px;
-                    margin: 0 auto;
-                }
+            .wrapper {
+                width: 500px;
+                margin: 0 auto;
             }
-
+            
             body {
                 margin: 0;
                 background-color: var(--background-color);
                 color: var(--color);
-                font-family: monospace;
+                font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+;
             }
 
             header {
                 display: flex;
                 align-items: center;
-                flex-direction: row;
-            }
-
-            @media (max-width: 800px) {
-                header {
-                    flex-direction: column; 
-                    
-                }
+                flex-direction: column; 
             }
 
             .header-text {
-                line-height: 10px;
+                line-height: 11px;
             }
 
             .header-text-background {
