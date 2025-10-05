@@ -8,7 +8,7 @@
                 --dark-highlight: #98b6f2;
                 --light-highlight: #FF7A30;
                 --color: #E9E3DF;
-                --break-height: 30px;
+                --break-height: 20px;
             }
 
             html {
@@ -22,9 +22,11 @@
                 
             }
 
-            .wrapper {
-                width: 738px;
-                margin: 0 auto;
+            @media (min-width: 738px) {
+                .wrapper {
+                    width: 738px;
+                    margin: 0 auto;
+                }
             }
 
             body {
@@ -37,14 +39,21 @@
             header {
                 display: flex;
                 align-items: center;
-                height: 122x;
+                flex-direction: row;
+            }
+
+            @media (max-width: 800px) {
+                header {
+                    flex-direction: column; 
+                    
+                }
             }
 
             .header-text {
                 margin: 0.25em;
                 line-height: 1.04em;
-                flex: 0 0 369px !important;
             }
+
             .header-text-background {
                 color: var(--dark-highlight);
             }
@@ -56,7 +65,7 @@
             .header-countdown {
                 font-size: 1em;
                 vertical-align: middle;
-                padding: 0 0 0 10px;
+                padding: 10px 0 0 10px;
             }
 
             main {
@@ -66,16 +75,16 @@
             main event ol {
                 list-style-type: none;
                 list-style-position: inside;
+                text-align: left;
                 margin: 0 0 0 200px;
                 padding: 20px 0 0 0;
             }
-
 
             event time {
                 text-align: right;
                 vertical-align: middle;
                 position: absolute;
-                transform: translateX(-143px);
+                transform: translateX(-180px);
                 width: 150px; 
                 font-size: 1.25em;
             }
@@ -86,16 +95,20 @@
             }
 
             event text {
-                margin: 0 0 0 20px;
-                padding: 7px;
+                margin: 0;
                 font-size: 1.25em;
-                border: var(--dark-highlight) solid 2px;
             }
 
             .dotted-line {
                 border-left: var(--dark-highlight) dotted 5px ;
                 left: -12px;
                 height: var(--break-height);
+            }
+
+            .milestone { 
+                border-left: var(--dark-highlight) solid 2px;
+                padding: 0 7px 0 14px;
+                margin: 0 7px 0 0;
             }
 
             .spacer {
@@ -114,7 +127,7 @@
 
                 const queryString = new URLSearchParams(window.location.search);
 
-                var nextEventDate = null; //queryString.get('date');
+                var nextEventDate = queryString.get('date');
                 if(false && nextEventDate === null) 
                 {
                     await fetch('https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/nextEvent.json')
@@ -252,14 +265,14 @@
         <div class="wrapper">
             <header>
                 <div class="header-col header-text">
-                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span><br/>
                     <span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀█<span class="header-text-background">░</span>█▀▄<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█<span class="header-text-background">░░░</span>█▀▀<span class="header-text-background">░</span><br>
                     <span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▄<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀▀█<span class="header-text-background">░░</span>█<span class="header-text-background">░░░░</span>█▀█<span class="header-text-background">░░</span>█<span class="header-text-background">░░</span>█<span class="header-text-background">░░░</span>█<span class="header-text-background">░░░</span>▀▀█<span class="header-text-background">░</span><br>
                     <span class="header-text-background">░</span>▀<span class="header-text-background">░░░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░░</span>▀<span class="header-text-background">░░░░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span><br>
-                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
+                    <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span><br/>
                     <span class="header-text-background">░░░</span>▀█▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█▄█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>▀█▀<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀█<span class="header-text-background">░░░</span><br>
                     <span class="header-text-background">░░░░</span>█<span class="header-text-background">░░</span>█▀▀<span class="header-text-background">░</span>█<span class="header-text-background">░░░</span>█▀█<span class="header-text-background">░░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░░</span>█<span class="header-text-background">░░</span>█<span class="header-text-background">░</span>█<span class="header-text-background">░</span>█▀▀<span class="header-text-background">░░░</span><br>
-                    <span class="header-text-background">░░░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░░░</span>
+                    <span class="header-text-background">░░░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░</span>▀<span class="header-text-background">░</span>▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░</span>▀▀▀<span class="header-text-background">░░</span>▀<span class="header-text-background">░░</span>▀▀▀<span class="header-text-background">░</span>▀<span class="header-text-background">░░░░░</span><br/>
                     <span class="header-text-background">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span>
                 </div>
                 <div class="header-col header-countdown">
