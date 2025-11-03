@@ -118,7 +118,7 @@
                 const queryString = new URLSearchParams(window.location.search);
 
                 var nextEventDate = queryString.get('date');
-                if(false && nextEventDate === null) 
+                if(nextEventDate === null) 
                 {
                     await fetch('https://raw.githubusercontent.com/foresthillstechmeetup/fohi.io/refs/heads/main/data/nextEvent.json')
                         .then(response => {
