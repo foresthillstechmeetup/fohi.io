@@ -1,0 +1,16 @@
+{
+  "date": "2025-11-07T19:00:00",
+  "venue": {
+    "name": "Yant",
+    "link": "https://www.instagram.com/yant_art_space/",
+    "locationLink": "https://maps.app.goo.gl/TmgV2QdaQw2vdyWu5"
+  },
+  "speaker1": {
+    "name": "Discord Bots",
+    "link": "#"
+  },
+  "speaker2": {
+    "name": "Dev Containers",
+    "link": "#"
+  }
+}
